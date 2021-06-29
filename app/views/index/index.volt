@@ -45,41 +45,39 @@
             </select>
             <button type="submit">Submit</button>
         </form>
-        
+
         <table id="table" class="table table-bordered">
             <thead>
               <tr>
                 <th style="max-width: 10px" scope="col"><button type="button" id="toggle" class="btn btn-success">Hide/Show</button></th>
-                {% for user in users %}
-                <th scope="col">{{user.name}}</th>
+                {% for user2 in users %}
+                <th scope="col">{{user2.name}}</th>
                 {% endfor %}
               </tr>
             </thead>
             <tbody>
             {% for index,monthDay in monthDays %}
-              {% if index == today %}
+              {% if month == date('m') and index == date('d') %}
               <tr>
                 <th scope="row" >{{index}}<br>{{monthDay}}</th>
                 <td id="today">
-                  {% for timer in timers %}
-
-                    {% if timer.stop != null %}
-                      <li>{{date('H:i',strtotime(timer.start))}} - {{date('H:i',strtotime(timer.stop))}}</li>
-                    {% else %}
-                      <li>{{date('H:i',strtotime(timer.start))}} - </li>
-                    {% endif %}
-
-                    {% if loop.last %}
+                  {% if totals[index][user.id] is defined %}
+                    {% for timer in totals[index][user.id]['timers'] %}
                       {% if timer.stop != null %}
-                      <button id="start">start</button>
+                        <li>{{date('H:i',strtotime(timer.start))}} - {{date('H:i',strtotime(timer.stop))}}</li>
                       {% else %}
-                      <button data-id="{{timer.id}}" id="stop">stop</button>
+                        <li>{{date('H:i',strtotime(timer.start))}} - </li>
                       {% endif %}
-                    {% endif %}
-
-                  {% endfor %}
-                  
-                  {% if timers|length  < 1 %}
+                      {% if loop.last %}
+                        {% if timer.stop != null %}
+                        <button id="start">start</button>
+                        {% else %}
+                        <button data-id="{{timer.id}}" id="stop">stop</button>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                    <p>total: {{totals[index][user.id]['total']}}</p>
+                  {% else %}
                     <button id="start">start</button>
                   {% endif %}
                 </td>
@@ -87,9 +85,16 @@
               {% else %}
               <tr style="display:none" class="hide-show">
                 <th scope="row">{{index}}<br>{{monthDay}}</th>
-                <td>Mark</td>
-                <td>Mark2</td>
-                <td>Mark3</td>
+                {% for user3 in users %}
+                <td>
+                  {% if totals[index][user3.id] is defined %}
+                    {% for timer in totals[index][user3.id]['timers'] %}
+                      <li>{{date('H:i',strtotime(timer.start))}} - {{date('H:i',strtotime(timer.stop))}}</li>
+                    {% endfor %}
+                    <p>total: {{totals[index][user3.id]['total']}}</p>
+                  {% endif %}
+                </td>
+                {% endfor %}
               </tr>
               {% endif %}
             {% endfor %}

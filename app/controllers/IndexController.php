@@ -5,6 +5,7 @@ namespace Time\Controllers;
 use Time\Models\Users;
 use Time\Models\Timer;
 use Time\Calendar\Calendar;
+use Time\Total\Total;
 
 class IndexController extends ControllerBase
 {
@@ -15,6 +16,7 @@ class IndexController extends ControllerBase
 
     public function indexAction()
     {
+        
 
         if ($this->request->isPost()) {
             $month = $this->request->getPost('month');
@@ -24,7 +26,9 @@ class IndexController extends ControllerBase
             $year = date('Y');
         }
 
-        $usersId = 2;
+        $totals = Total::totals($month, $year);
+
+        $usersId = 4;
         $timers = Timer::find([
             'usersId = :usersId: AND createdAt >= :date:',
             'bind' => [
@@ -32,15 +36,16 @@ class IndexController extends ControllerBase
                 'date' => date("Y-m-d")
             ]
         ]);
-        $today = date('d');
         $monthDays = Calendar::monthDays($month, $year);
-        $user = Users::findFirstById(1);
+        $user = Users::findFirstById($usersId);
         $users = Users::find([
             "active = 'Y'",
+            "order" => 'id='.$usersId.' DESC'
         ]);
+        
 
+        $this->view->totals = $totals;
         $this->view->timers = $timers;
-        $this->view->today = $today;
         $this->view->month = $month;
         $this->view->year = $year;
         $this->view->monthDays = $monthDays;

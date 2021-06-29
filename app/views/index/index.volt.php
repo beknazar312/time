@@ -45,41 +45,39 @@
             </select>
             <button type="submit">Submit</button>
         </form>
-        
+
         <table id="table" class="table table-bordered">
             <thead>
               <tr>
                 <th style="max-width: 10px" scope="col"><button type="button" id="toggle" class="btn btn-success">Hide/Show</button></th>
-                <?php foreach ($users as $user) { ?>
-                <th scope="col"><?= $user->name ?></th>
+                <?php foreach ($users as $user2) { ?>
+                <th scope="col"><?= $user2->name ?></th>
                 <?php } ?>
               </tr>
             </thead>
             <tbody>
             <?php foreach ($monthDays as $index => $monthDay) { ?>
-              <?php if ($index == $today) { ?>
+              <?php if ($month == date('m') && $index == date('d')) { ?>
               <tr>
                 <th scope="row" ><?= $index ?><br><?= $monthDay ?></th>
                 <td id="today">
-                  <?php $v26562400262iterator = $timers; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $timer) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
-
-                    <?php if ($timer->stop != null) { ?>
-                      <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
-                    <?php } else { ?>
-                      <li><?= date('H:i', strtotime($timer->start)) ?> - </li>
-                    <?php } ?>
-
-                    <?php if ($v26562400262loop->last) { ?>
+                  <?php if (isset($totals[$index][$user->id])) { ?>
+                    <?php $v26562400262iterator = $totals[$index][$user->id]['timers']; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $timer) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
                       <?php if ($timer->stop != null) { ?>
-                      <button id="start">start</button>
+                        <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
                       <?php } else { ?>
-                      <button data-id="<?= $timer->id ?>" id="stop">stop</button>
+                        <li><?= date('H:i', strtotime($timer->start)) ?> - </li>
                       <?php } ?>
-                    <?php } ?>
-
-                  <?php $v26562400262incr++; } ?>
-                  
-                  <?php if ($this->length($timers) < 1) { ?>
+                      <?php if ($v26562400262loop->last) { ?>
+                        <?php if ($timer->stop != null) { ?>
+                        <button id="start">start</button>
+                        <?php } else { ?>
+                        <button data-id="<?= $timer->id ?>" id="stop">stop</button>
+                        <?php } ?>
+                      <?php } ?>
+                    <?php $v26562400262incr++; } ?>
+                    <p>total: <?= $totals[$index][$user->id]['total'] ?></p>
+                  <?php } else { ?>
                     <button id="start">start</button>
                   <?php } ?>
                 </td>
@@ -87,9 +85,16 @@
               <?php } else { ?>
               <tr style="display:none" class="hide-show">
                 <th scope="row"><?= $index ?><br><?= $monthDay ?></th>
-                <td>Mark</td>
-                <td>Mark2</td>
-                <td>Mark3</td>
+                <?php $v26562400262iterator = $users; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $user3) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
+                <td>
+                  <?php if (isset($totals[$index][$user3->id])) { ?>
+                    <?php foreach ($totals[$index][$user3->id]['timers'] as $timer) { ?>
+                      <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
+                    <?php } ?>
+                    <p>total: <?= $totals[$index][$user3->id]['total'] ?></p>
+                  <?php } ?>
+                </td>
+                <?php $v26562400262incr++; } ?>
               </tr>
               <?php } ?>
             <?php } ?>

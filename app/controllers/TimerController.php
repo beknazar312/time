@@ -19,7 +19,7 @@ class TimerController extends ControllerBase
 
     public function startAction() {
         if ($this->request->isPost()) {
-            $usersId = 2;
+            $usersId = 4;
 
             $timer = new Timer;
             $timer->usersId = $usersId;
@@ -43,7 +43,7 @@ class TimerController extends ControllerBase
 
     public function stopAction() {
         if ($this->request->isPost()) {
-            $usersId = 2;
+            $usersId = 4;
 
             $timer = Timer::findFirstById($this->request->getPost('id'));
             $timer->stop = date('Y-m-d H:i:s');
