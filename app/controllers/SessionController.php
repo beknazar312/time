@@ -27,6 +27,7 @@ class SessionController extends ControllerBase
     {
         if ($this->request->isPost()) {
             if ($this->request->isAjax()) {
+                
                 $user = new Users([
                     'name' => $this->request->getPost('name'),
                     'login' => $this->request->getPost('login'),
@@ -35,12 +36,11 @@ class SessionController extends ControllerBase
                 ]);
 
                 if ($user->save()) {
-                    $users = Users::find();
-
+                    $users = Users::find(["active = 'Y'"]);
                     $this->response->setJsonContent(json_encode(['users' => $users]));
                     return $this->response;
                 } else {
-                    $this->response->setJsonContent(json_encode(['error' => 'Ошибка!']));
+                    $this->response->setJsonContent(json_encode(['error' => 'wrong']));
                     return $this->response;
                 }
             }
@@ -55,7 +55,7 @@ class SessionController extends ControllerBase
                 $user = Users::findFirstById($this->request->getPost('id'));
                 $user->active =  0; 
                 if ($user->save()) {
-                    $users = Users::find();
+                    $users = Users::find(["active = 'Y'"]);
                     $this->response->setJsonContent(json_encode(['users' => $users]));
                     return $this->response;
                 } else {

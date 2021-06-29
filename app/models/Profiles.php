@@ -18,30 +18,39 @@
 namespace Time\Models;
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Relation;
 
 /**
- * FailedLogins. This model registers unsuccessfull logins registered and non-registered users have made
- * Vokuro\Models\FailedLogins
+ * All the profile levels in the application. Used in conjenction with ACL lists
+ * Vokuro\Models\Profiles
+ * @method static Profiles findFirstById($id)
  * @package Vokuro\Models
  */
-class FailedLogins extends Model
+class Profiles extends Model
 {
     /** @var integer */
     public $id;
 
-    /** @var integer */
-    public $usersId;
-
     /** @var string */
-    public $ipAddress;
+    public $name;
 
-    /** @var integer */
-    public $attempted;
-
+    /**
+     * Define relationships to Users and Permissions
+     */
     public function initialize()
     {
-        $this->belongsTo('usersId', __NAMESPACE__ . '\Users', 'id', [
-            'alias' => 'user'
+        $this->hasMany('id', __NAMESPACE__ . '\Users', 'profilesId', [
+            'alias' => 'users',
+            'foreignKey' => [
+                'message' => 'Profile cannot be deleted because it\'s used on Users'
+            ]
+        ]);
+
+        $this->hasMany('id', __NAMESPACE__ . '\Permissions', 'profilesId', [
+            'alias' => 'permissions',
+            'foreignKey' => [
+                'action' => Relation::ACTION_CASCADE
+            ]
         ]);
     }
 }

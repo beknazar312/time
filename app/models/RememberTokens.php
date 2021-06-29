@@ -20,11 +20,11 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * FailedLogins. This model registers unsuccessfull logins registered and non-registered users have made
- * Vokuro\Models\FailedLogins
+ * RememberTokens. Stores the remember me tokens
+ * Vokuro\Models\RememberTokens
  * @package Vokuro\Models
  */
-class FailedLogins extends Model
+class RememberTokens extends Model
 {
     /** @var integer */
     public $id;
@@ -33,10 +33,22 @@ class FailedLogins extends Model
     public $usersId;
 
     /** @var string */
-    public $ipAddress;
+    public $token;
+
+    /** @var string */
+    public $userAgent;
 
     /** @var integer */
-    public $attempted;
+    public $createdAt;
+
+    /**
+     * Before create the user assign a password
+     */
+    public function beforeValidationOnCreate()
+    {
+        // Timestamp the confirmaton
+        $this->createdAt = time();
+    }
 
     public function initialize()
     {

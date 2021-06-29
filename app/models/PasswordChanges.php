@@ -20,11 +20,11 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * FailedLogins. This model registers unsuccessfull logins registered and non-registered users have made
- * Vokuro\Models\FailedLogins
+ * PasswordChanges. Register when a user changes his/her password
+ * Vokuro\Models\PasswordChanges
  * @package Vokuro\Models
  */
-class FailedLogins extends Model
+class PasswordChanges extends Model
 {
     /** @var integer */
     public $id;
@@ -35,8 +35,20 @@ class FailedLogins extends Model
     /** @var string */
     public $ipAddress;
 
+    /** @var string */
+    public $userAgent;
+
     /** @var integer */
-    public $attempted;
+    public $createdAt;
+
+    /**
+     * Before create the user assign a password
+     */
+    public function beforeValidationOnCreate()
+    {
+        // Timestamp the confirmaton
+        $this->createdAt = time();
+    }
 
     public function initialize()
     {

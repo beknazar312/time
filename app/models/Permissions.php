@@ -20,28 +20,28 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * FailedLogins. This model registers unsuccessfull logins registered and non-registered users have made
- * Vokuro\Models\FailedLogins
+ * Permissions. Stores the permissions by profile
+ * Time\Models\Permissions
  * @package Vokuro\Models
  */
-class FailedLogins extends Model
+class Permissions extends Model
 {
     /** @var integer */
     public $id;
 
     /** @var integer */
-    public $usersId;
+    public $profilesId;
 
     /** @var string */
-    public $ipAddress;
+    public $resource;
 
-    /** @var integer */
-    public $attempted;
+    /** @var string */
+    public $action;
 
     public function initialize()
     {
-        $this->belongsTo('usersId', __NAMESPACE__ . '\Users', 'id', [
-            'alias' => 'user'
+        $this->belongsTo('profilesId', __NAMESPACE__ . '\Profiles', 'id', [
+            'alias' => 'profile'
         ]);
     }
 }

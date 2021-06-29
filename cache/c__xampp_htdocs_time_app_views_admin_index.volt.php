@@ -73,6 +73,7 @@
                     $('#password').val('');
                     $('#exampleModalCenter').modal('hide');
                     data = $.parseJSON(data);
+                    console.log(data);
                     setList(data);
                 }
             });

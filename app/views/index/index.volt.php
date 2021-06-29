@@ -62,7 +62,13 @@
                 <th scope="row" ><?= $index ?><br><?= $monthDay ?></th>
                 <td id="today">
                   <?php $v26562400262iterator = $timers; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $timer) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
-                    <li><?= date('H:i', $this->callMacro('strtotime', [$timer->start])) ?> - <?= date('H:i', $this->callMacro('strtotime', [$timer->stop])) ?></li>
+
+                    <?php if ($timer->stop != null) { ?>
+                      <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
+                    <?php } else { ?>
+                      <li><?= date('H:i', strtotime($timer->start)) ?> - </li>
+                    <?php } ?>
+
                     <?php if ($v26562400262loop->last) { ?>
                       <?php if ($timer->stop != null) { ?>
                       <button id="start">start</button>
@@ -70,6 +76,7 @@
                       <button data-id="<?= $timer->id ?>" id="stop">stop</button>
                       <?php } ?>
                     <?php } ?>
+
                   <?php $v26562400262incr++; } ?>
                   
                   <?php if ($this->length($timers) < 1) { ?>
@@ -99,8 +106,9 @@
       $('#table').on('click', '#start', function () {
         $.ajax({
               type: "POST",
-              url: "timer/start",
+              url: "/time/timer/start",
               success:function(data){
+                //$('#table').html(data);
                 data = $.parseJSON(data);
                 getTimers (data);
               }
@@ -112,7 +120,7 @@
 
         $.ajax({
               type: "POST",
-              url: "timer/stop",
+              url: "/time/timer/stop",
               data: {id:id},
               success:function(data){
                 data = $.parseJSON(data);
@@ -124,7 +132,7 @@
       function getTimers (data) {
         var body = '';
         for (var i = 0; i < data.length; i++) {
-          body +="<li>"+data[i].start+"-"+data[i].stop+"</li>";
+          body +="<li>"+getDate(data[i].start)+"-"+getDate(data[i].stop)+"</li>";
           if (i === data.length -1) {
             if (data[i].stop != null) {
               body +="<button id='start'>start</button>";
@@ -135,6 +143,17 @@
         }
 
         $('#today').html(body);
+      }
+
+      function getDate(date) {
+        if (date == null) {
+          return '';
+        }
+
+        var date = new Date(date);
+        var hours = ('0'+date.getHours()).substr(-2);
+        var minutes = ('0'+date.getMinutes()).substr(-2);
+        return hours+':'+minutes;
       }
 </script>
 

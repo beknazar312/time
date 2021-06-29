@@ -20,11 +20,11 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * FailedLogins. This model registers unsuccessfull logins registered and non-registered users have made
- * Vokuro\Models\FailedLogins
+ * SuccessLogins. This model registers successfull logins registered users have made
+ * Vokuro\Models\SuccessLogins
  * @package Vokuro\Models
  */
-class FailedLogins extends Model
+class SuccessLogins extends Model
 {
     /** @var integer */
     public $id;
@@ -35,8 +35,8 @@ class FailedLogins extends Model
     /** @var string */
     public $ipAddress;
 
-    /** @var integer */
-    public $attempted;
+    /** @var string */
+    public $userAgent;
 
     public function initialize()
     {

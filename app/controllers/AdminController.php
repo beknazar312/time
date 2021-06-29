@@ -9,7 +9,9 @@ class AdminController extends ControllerBase
 
     public function indexAction()
     {
-        $this->view->users = Users::find();
+        $this->view->users = Users::find([
+            "active = 'Y'",
+        ]);
     }
 
 }
