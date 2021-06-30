@@ -24,9 +24,6 @@ class Timer extends Model
     /** @var datetime */
     public $stop;
 
-    /** @var float */
-    public $count;
-
     public function initialize()
     {
         $this->belongsTo('usersId', __NAMESPACE__ . '\Users', 'id', [

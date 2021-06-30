@@ -22,49 +22,6 @@ class SessionController extends ControllerBase
         
     }
 
- 
-    public function createAction()
-    {
-        if ($this->request->isPost()) {
-            if ($this->request->isAjax()) {
-                
-                $user = new Users([
-                    'name' => $this->request->getPost('name'),
-                    'login' => $this->request->getPost('login'),
-                    'email' => $this->request->getPost('email'),
-                    'password' => $this->security->hash($this->request->getPost('password')),
-                ]);
-
-                if ($user->save()) {
-                    $users = Users::find(["active = 'Y'"]);
-                    $this->response->setJsonContent(json_encode(['users' => $users]));
-                    return $this->response;
-                } else {
-                    $this->response->setJsonContent(json_encode(['error' => 'wrong']));
-                    return $this->response;
-                }
-            }
-        }
-    }
-
-
-    public function deleteAction() 
-    {
-        if ($this->request->isPost()) {
-            if ($this->request->isAjax()) {
-                $user = Users::findFirstById($this->request->getPost('id'));
-                $user->active =  0; 
-                if ($user->save()) {
-                    $users = Users::find(["active = 'Y'"]);
-                    $this->response->setJsonContent(json_encode(['users' => $users]));
-                    return $this->response;
-                } else {
-                    $this->response->setJsonContent(json_encode(['error' => 'Ошибка!']));
-                    return $this->response;
-                }
-            }
-        }
-    }
     /**
      * Starts a session in the admin backend
      */

@@ -4,6 +4,7 @@ namespace Time\Controllers;
 
 use Time\Models\Timer;
 use Time\Models\Lates;
+use Time\Models\Workday;
 
 class TimerController extends ControllerBase
 {
@@ -74,10 +75,8 @@ class TimerController extends ControllerBase
             ]
         ]);
 
-        $today = date('Y-m-d H:i:s');
-        $todayDateTime = new \DateTime($today);
-
-        $startTime = $todayDateTime->setTime(9,0,1);
+        $workday = Workday::findFirst(1);
+        $startTime = new \DateTime($workday->time);
 
         if (count($timers) === 1 && $startTime < new \DateTime($timer->start)) {
             $lates = new Lates;

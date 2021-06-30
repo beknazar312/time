@@ -7,12 +7,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-    {{ javascript_include('js/jquery.min.js') }}
     <title>Pricing example for Bootstrap</title>
 
     <!-- CSS -->
     {{ stylesheet_link('css/bootstrap.min.css') }}
+    {{ stylesheet_link('css/jquery-ui.css') }}
     {{ stylesheet_link('css/custom.css') }}
+    {{ javascript_include('js/jquery.min.js') }}
 
   </head>
 
@@ -23,8 +24,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    {{ javascript_include('js/jquery.min.js') }}
+    
     {{ javascript_include('js/bootstrap.min.js') }}
+    {{ javascript_include('js/jquery-ui.js') }}
+    {{ javascript_include('js/main.js') }}
 
 
   </body>

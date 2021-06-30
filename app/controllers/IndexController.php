@@ -9,15 +9,9 @@ use Time\Total\Total;
 
 class IndexController extends ControllerBase
 {
-    public function initialize()
-    {
-        $this->view->setTemplateBefore('user');
-    }
 
     public function indexAction()
     {
-        
-
         if ($this->request->isPost()) {
             $month = $this->request->getPost('month');
             $year = $this->request->getPost('year');
@@ -43,7 +37,6 @@ class IndexController extends ControllerBase
             "order" => 'id='.$usersId.' DESC'
         ]);
         
-
         $this->view->totals = $totals;
         $this->view->timers = $timers;
         $this->view->month = $month;
@@ -51,8 +44,6 @@ class IndexController extends ControllerBase
         $this->view->monthDays = $monthDays;
         $this->view->users = $users;
         $this->view->user = $user;
-
-        
     }
 
 }
