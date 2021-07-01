@@ -1,11 +1,13 @@
+<div class="container">
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Добавить</button>
 
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">Добавить</button>
+  <ul id="list" class="list-group">
+    {% for user in users %}
+      <li class="list-group-item"><div class="row"><b class="col-10">{{user.name}}</b> <button id="{{user.id}}" class="delete col-2">Удалить</button></div></li>
+    {% endfor %} 
+  </ul>
+</div>
 
-<ul id="list" class="list-group">
-  {% for user in users %}
-    <li class="list-group-item"><div class="row"><b class="col-10">{{user.name}}</b> <button id="{{user.id}}" class="delete col-2">Удалить</button></div></li>
-  {% endfor %} 
-</ul>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

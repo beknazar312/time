@@ -4,12 +4,10 @@
       {{ link_to('users/index', 'Пользователи', 'class': 'p-2 text-dark')}}
       {{ link_to('holidays/index', 'Праздники', 'class': 'p-2 text-dark')}}
       {{ link_to('lates/index', 'Опоздавшие', 'class': 'p-2 text-dark')}}
-      <a class="p-2 text-dark" href="#">Pricing</a>
+      {{ link_to('timer/index', 'Тайм', 'class': 'p-2 text-dark')}}
     </nav>
   </div>
 
-
     {{content()}}
-
 
     {% include 'partials/footer.volt' %}

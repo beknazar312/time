@@ -47,4 +47,6 @@ html {
 .list-group-item:hover, a.list-group-item:focus {text-decoration: none;background-color: rgb(245, 245, 245);}
 .list-group { margin-bottom:0px; }
 
-
+.change-timer {
+  margin-left: 10px;
+}

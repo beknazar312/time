@@ -23,14 +23,9 @@ class IndexController extends ControllerBase
         $totals = Total::totals($month, $year);
 
         $usersId = 4;
-        $timers = Timer::find([
-            'usersId = :usersId: AND createdAt >= :date:',
-            'bind' => [
-                'usersId' => $usersId,
-                'date' => date("Y-m-d")
-            ]
-        ]);
-        $monthDays = Calendar::monthDays($month, $year);
+        
+        $calendar = new Calendar;
+        $calendar = $calendar->calendar($month, $year);
         $user = Users::findFirstById($usersId);
         $users = Users::find([
             "active = 'Y'",
@@ -38,10 +33,9 @@ class IndexController extends ControllerBase
         ]);
         
         $this->view->totals = $totals;
-        $this->view->timers = $timers;
         $this->view->month = $month;
         $this->view->year = $year;
-        $this->view->monthDays = $monthDays;
+        $this->view->calendar = $calendar;
         $this->view->users = $users;
         $this->view->user = $user;
     }

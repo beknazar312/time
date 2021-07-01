@@ -55,11 +55,15 @@
                 <?php } ?>
               </tr>
             </thead>
-            <tbody>
-            <?php foreach ($monthDays as $index => $monthDay) { ?>
+            <?php foreach ($calendar['calendar'] as $index => $value) { ?>
+            <tbody
+            <?php if ($value['weekend'] == 1) { ?>
+              style="background:rgb(219, 130, 130)"
+            <?php } ?>
+            >
               <?php if ($month == date('m') && $index == date('d')) { ?>
               <tr>
-                <th scope="row" ><?= $index ?><br><?= $monthDay ?></th>
+                <th scope="row" ><?= $index ?><br><?= $value['day'] ?> </th>
                 <td id="today">
                   <?php if (isset($totals[$index][$user->id])) { ?>
                     <?php $v26562400262iterator = $totals[$index][$user->id]['timers']; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $timer) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
@@ -84,12 +88,16 @@
               </tr>
               <?php } else { ?>
               <tr style="display:none" class="hide-show">
-                <th scope="row"><?= $index ?><br><?= $monthDay ?></th>
+                <th scope="row"><?= $index ?><br><?= $value['day'] ?></th>
                 <?php $v26562400262iterator = $users; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $user3) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>
                 <td>
                   <?php if (isset($totals[$index][$user3->id])) { ?>
                     <?php foreach ($totals[$index][$user3->id]['timers'] as $timer) { ?>
-                      <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
+                      <?php if ($timer->stop != null) { ?>
+                        <li><?= date('H:i', strtotime($timer->start)) ?> - <?= date('H:i', strtotime($timer->stop)) ?></li>
+                      <?php } else { ?>
+                        <li><?= date('H:i', strtotime($timer->start)) ?> - </li>
+                      <?php } ?>
                     <?php } ?>
                     <p>total: <?= $totals[$index][$user3->id]['total'] ?></p>
                   <?php } ?>
@@ -97,8 +105,8 @@
                 <?php $v26562400262incr++; } ?>
               </tr>
               <?php } ?>
-            <?php } ?>
             </tbody>
+            <?php } ?>
           </table>
     </div>
 </div>

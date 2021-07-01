@@ -4,13 +4,11 @@
       <?= $this->tag->linkTo(['users/index', 'Пользователи', 'class' => 'p-2 text-dark']) ?>
       <?= $this->tag->linkTo(['holidays/index', 'Праздники', 'class' => 'p-2 text-dark']) ?>
       <?= $this->tag->linkTo(['lates/index', 'Опоздавшие', 'class' => 'p-2 text-dark']) ?>
-      <a class="p-2 text-dark" href="#">Pricing</a>
+      <?= $this->tag->linkTo(['timer/index', 'Тайм', 'class' => 'p-2 text-dark']) ?>
     </nav>
   </div>
 
-
     <?= $this->getContent() ?>
-
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">

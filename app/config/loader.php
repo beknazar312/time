@@ -17,6 +17,8 @@ $loader->register();
 // Use composer autoloader to load vendor classes
 require_once BASE_PATH . '/vendor/autoload.php';
 
+date_default_timezone_set("Asia/Bishkek");
+
 if (!function_exists('print_arr')) {
     function print_arr($var, $return = false, $special = true)
     {

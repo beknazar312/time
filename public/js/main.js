@@ -155,16 +155,18 @@ $(document).ready(function () {
 
       function getTimers (data) {
         var body = '';
-        for (var i = 0; i < data.length; i++) {
-          body +="<li>"+getDate(data[i].start)+"-"+getDate(data[i].stop)+"</li>";
-          if (i === data.length -1) {
-            if (data[i].stop != null) {
+        for (var i = 0; i < data.timers.length; i++) {
+          body +="<li>"+getDate(data.timers[i].start)+"-"+getDate(data.timers[i].stop)+"</li>";
+          if (i === data.timers.length -1) {
+            if (data.timers[i].stop != null) {
               body +="<button id='start'>start</button>";
             } else {
-              body +="<button data-id='"+data[i].id+"'' id='stop'>stop</button>";
+              body +="<button data-id='"+data.timers[i].id+"'' id='stop'>stop</button>";
             }
           }
         }
+
+        body += '<p>total: '+data.total+'</p>';
 
         $('#today').html(body);
       }
@@ -178,6 +180,53 @@ $(document).ready(function () {
         var hours = ('0'+date.getHours()).substr(-2);
         var minutes = ('0'+date.getMinutes()).substr(-2);
         return hours+':'+minutes;
+      }
+
+    
+      //edit timer
+      $('#table').on('click','.change-timer',function () {
+          var start = $(this).attr('data-start');
+          var stop = $(this).attr('data-stop');
+          var id = $(this).attr('data-id');
+
+          $('#start').val(start);
+          $('#stop').val(stop);
+          $('#timerId').val(id);
+
+          $('#exampleModalCenter').modal('show');
+      });
+
+      $('#send-newtime').click(function () {
+        var start = $('#start').val();
+        var stop = $('#stop').val();
+        var id = $('#timerId').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/time/timer/update",
+            data: {
+                start: start,
+                stop: stop,
+                timerId: id
+            },
+            success:function(data){
+              data = $.parseJSON(data);
+              getTimersOnEdit(data);
+              $('#exampleModalCenter').modal('hide');
+            }
+        });
+      });
+
+      function getTimersOnEdit(data) {
+        var body = '';
+        for (var i = 0; i < data.timers.length; i++) {
+          body += '<div class="row">'+
+                    '<li>'+getDate(data.timers[i].start)+' - '+getDate(data.timers[i].stop)+'</li>'+
+                    '<button data-id="'+data.timers[i].id+'" data-start="'+getDate(data.timers[i].start)+'" data-stop="'+getDate(data.timers[i].start)+'" class="change-timer">edit</button>'+
+                  '</div>';
+        }
+        body += '<p>total: '+data.total+'</p>';
+        $(data.id).html(body);
       }
 
 
