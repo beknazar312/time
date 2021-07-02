@@ -132,9 +132,8 @@ $(document).ready(function () {
               type: "POST",
               url: "/time/timer/start",
               success:function(data){
-                //$('#table').html(data);
                 data = $.parseJSON(data);
-                getTimers (data);
+                getTimers(data);
               }
           });
       })
@@ -222,12 +221,14 @@ $(document).ready(function () {
         for (var i = 0; i < data.timers.length; i++) {
           body += '<div class="row">'+
                     '<li>'+getDate(data.timers[i].start)+' - '+getDate(data.timers[i].stop)+'</li>'+
-                    '<button data-id="'+data.timers[i].id+'" data-start="'+getDate(data.timers[i].start)+'" data-stop="'+getDate(data.timers[i].start)+'" class="change-timer">edit</button>'+
+                    '<button data-id="'+data.timers[i].id+'" data-start="'+getDate(data.timers[i].start)+'" data-stop="'+getDate(data.timers[i].stop)+'" class="change-timer">edit</button>'+
                   '</div>';
         }
         body += '<p>total: '+data.total+'</p>';
         $(data.id).html(body);
       }
+
+
 
 
 })

@@ -11,6 +11,8 @@ use Phalcon\Flash\Direct as Flash;
 use Phalcon\Mvc\Dispatcher;
 use Time\Auth\Auth;
 use Time\Acl\Acl;
+use Phalcon\Crypt;
+
 
 /**
  * Shared configuration service
@@ -161,4 +163,12 @@ $di->set('acl', function () {
     $pr = $this->getShared('AclResources')->privateResources->toArray();
     $acl->addPrivateResources($pr);
     return $acl;
+});
+
+$di->set('crypt', function () {
+    $config = $this->getConfig();
+
+    $crypt = new Crypt();
+    $crypt->setKey($config->application->cryptSalt);
+    return $crypt;
 });

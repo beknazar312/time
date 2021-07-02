@@ -5,14 +5,31 @@ use Phalcon\Logger;
 
 return new Config([
     'privateResources' => [
-        'admin' => [
-            'index',
-        ],
-        'session' => [
+        'users' => [
             'index',
             'create',
             'delete'
         ],
-
+        'holidays' => [
+            'index',
+            'create',
+            'delete'
+        ],
+        'lates' => [
+            'index',
+            'delete'
+        ],
+        'timer' => [
+            'index',
+            'update',
+            'start',
+            'stop'
+        ],
+        'workday' => [
+            'update'
+        ],
+        'index' => [
+            'index'
+        ]
     ]
 ]);

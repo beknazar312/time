@@ -1,20 +1,5 @@
 <?php
 
-/*
-  +------------------------------------------------------------------------+
-  | Vökuró                                                                 |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2016-present Phalcon Team (https://www.phalconphp.com)   |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file LICENSE.txt.                             |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@phalconphp.com so we can send you a copy immediately.       |
-  +------------------------------------------------------------------------+
-*/
-
 namespace Time\Auth;
 
 use Time\Models\Users;
@@ -56,6 +41,9 @@ class Auth extends Component
         // Check if the user was flagged
         $this->checkUserFlags($user);
 
+        // Register the successful login
+        $this->saveSuccessLogin($user);
+
         // Check if the remember me was selected
         if (isset($credentials['remember'])) {
             $this->createRememberEnvironment($user);
@@ -68,7 +56,23 @@ class Auth extends Component
         ]);
     }
 
-
+    /**
+     * Creates the remember me environment settings the related cookies and generating tokens
+     *
+     * @param \Time\Models\Users $user
+     * @throws Exception
+     */
+    public function saveSuccessLogin($user)
+    {
+        $successLogin = new SuccessLogins();
+        $successLogin->usersId = $user->id;
+        $successLogin->ipAddress = $this->request->getClientAddress();
+        $successLogin->userAgent = $this->request->getUserAgent();
+        if (!$successLogin->save()) {
+            $messages = $successLogin->getMessages();
+            throw new Exception($messages[0]);
+        }
+    }
 
     /**
      * Implements login throttling
@@ -198,8 +202,8 @@ class Auth extends Component
      */
     public function checkUserFlags(Users $user)
     {
-        if ($user->active != 1) {
-            throw new Exception('The user is inactive');
+        if ($user->active != 'Y') {
+            throw new Exception('Пользователя не существует.');
         }
     }
 

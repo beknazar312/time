@@ -13,7 +13,6 @@ class TimerController extends ControllerBase
 {
     public function initialize()
     {
-        
         $this->view->setTemplateBefore('admin');
     }
 
@@ -31,7 +30,8 @@ class TimerController extends ControllerBase
 
         $calendar = new Calendar;
         $calendar = $calendar->calendar($month, $year);
-
+        $monthes = Calendar::monthes();
+        $years = Calendar::years();
         $users = Users::find([
             "active = 'Y'",
         ]);
@@ -41,12 +41,16 @@ class TimerController extends ControllerBase
         $this->view->year = $year;
         $this->view->calendar = $calendar;
         $this->view->users = $users;
+        $this->view->years = $years;
+        $this->view->monthes = $monthes;
+        
     }
 
     public function startAction() 
     {
         if ($this->request->isPost()) {
-            $usersId = 4;
+            $identity = $this->auth->getIdentity();
+            $usersId = $identity['id'];
 
             $timer = new Timer;
             $timer->usersId = $usersId;
@@ -75,7 +79,8 @@ class TimerController extends ControllerBase
     public function stopAction() 
     {
         if ($this->request->isPost()) {
-            $usersId = 4;
+            $identity = $this->auth->getIdentity();
+            $usersId = $identity['id'];
 
             $timer = Timer::findFirstById($this->request->getPost('id'));
             $timer->stop = date('Y-m-d H:i:s');
@@ -169,7 +174,6 @@ class TimerController extends ControllerBase
             } else {
                 $minutes += (strtotime(date('Y-m-d H:i:s')) - strtotime($timer->start))/60;
             }
-            
             $minutes = round($minutes);
         }
 

@@ -25,11 +25,11 @@ class LatesController extends ControllerBase
                 'date' => $date
             ]
             ]);
-
         $workday = Workday::findFirst(1);
 
         $this->view->lates = $lates;
         $this->view->workday = $workday;
+
     }
 
     public function deleteAction($id)

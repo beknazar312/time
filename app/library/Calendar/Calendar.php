@@ -6,17 +6,16 @@ use Time\Models\Holidays;
 
 class Calendar
 {
-    public function calendar ($month, $year) 
+    public static function calendar ($month, $year) 
     {
         $calendar =  [
-            'workdays' => 0,
             'workhours' => 0,
             'calendar' => []
             ];
 
         $daysCount = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-        $holidays = $this->getHolidays($daysCount, $month, $year);
+        $holidays = self::getHolidays($daysCount, $month, $year);
 
         for ($i = 1; $i<=$daysCount; $i++)
         {
@@ -28,13 +27,14 @@ class Calendar
                 $calendar['calendar'][$i]['weekend'] = true;
             } else {
                 $calendar['calendar'][$i]['weekend'] = false;
+                $calendar['workhours'] += 8;
             }
         }
 
         return $calendar;
     }
 
-    protected function  getHolidays($lastDate, $month, $year)
+    public static function  getHolidays($lastDate, $month, $year)
     {
         $dateFrom = $year.'-'.$month.'-1';
         $dateTo = $year.'-'.$month.'-'.$lastDate;
@@ -56,6 +56,46 @@ class Calendar
         }
 
         return $holydaysDates;
+    }
+
+    public static function monthes() 
+    {
+        return [
+            1 => 'January',  
+            2 => 'February', 
+            3 => 'March',    
+            4 => 'April',    
+            5 => 'May',      
+            6 => 'june',     
+            7 => 'July',     
+            8 => 'August',   
+            9 => 'September',
+            10 => 'October',  
+            11 => 'November', 
+            12 => 'December' 
+        ];
+    }
+
+    public static function years() 
+    {
+        $years = [];
+
+        for ($i = 2009; $i <= 2021; $i++) {
+            $years[$i] = $i;
+        }
+        return $years;
+    }
+
+    public static function days($month, $year) 
+    {
+        $days = [];
+
+        $daysCount = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        for ($i = 1; $i <= $daysCount; $i++) {
+            $days[$i] = $i;
+        }
+        return $days;
     }
 
 

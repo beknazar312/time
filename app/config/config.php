@@ -26,6 +26,6 @@ return new Config([
         'formsDir'       => APP_PATH . '/forms/',
         'validationDir'  => APP_PATH . '/validation/',
         'baseUri'        => '/time/',
-        
+        'cryptSalt'      => 'eEAfR|_&G&f,+vU]:jFr!!A&+71w1Ms9~8_4L!<@[N@DyaIP_2My|:+.u>/6m,$D'
     ]
 ]);

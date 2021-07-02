@@ -9,6 +9,8 @@
         </form>
     </div>
     <div class="col-8">
+        <div class="text-center">
+        </div>
         <table class="table">
             <thead>
                 <tr>
