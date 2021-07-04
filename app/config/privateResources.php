@@ -1,7 +1,6 @@
 <?php
 
 use Phalcon\Config;
-use Phalcon\Logger;
 
 return new Config([
     'privateResources' => [
@@ -25,7 +24,7 @@ return new Config([
             'start',
             'stop'
         ],
-        'workday' => [
+        'worktime' => [
             'update'
         ],
         'index' => [

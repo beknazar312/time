@@ -11,11 +11,12 @@ class HolidaysController extends ControllerBase
         $this->view->setTemplateBefore('admin');
     }
 
+
     public function indexAction()
     {
-        
+        // get all holidays 
         $holidays = Holidays::find([
-            'date>=:date: OR repeateDate=:repeate:',
+            'date>=:date: OR repeate=:repeate:',
             'order' => 'date',
             'bind' => [
                 'date' => date('Y-m-1'),
@@ -29,15 +30,15 @@ class HolidaysController extends ControllerBase
     public function createAction()
     {
         if ($this->request->isPost()) {
-            // print_die($this->request->getPost('date'));
             $repeate = 'N';
+
             if ($this->request->getPost('repeate') == 'on') {
                 $repeate = 'Y';
             }
 
             $holiday = new Holidays([
                 'date' => $this->request->getPost('date'),
-                'repeateDate' => $repeate,
+                'repeate' => $repeate,
             ]);
 
             if ($holiday->save()) {
@@ -54,7 +55,7 @@ class HolidaysController extends ControllerBase
         if ($holiday->delete()) {
             return $this->response->redirect('holidays');
         } else {
-            $this->flash->error($holiday->getMessages());
+            return $this->flash->error($holiday->getMessages());
         }
     }
 

@@ -29,7 +29,7 @@
                 <?php foreach ($holidays as $holiday) { ?>
                 <tr data-date="<?= date('d', strtotime($holiday->date)) ?>" data-month="<?= date('m', strtotime($holiday->date)) ?>">
                     <td><?= date('j F', strtotime($holiday->date)) ?></td>
-                    <td><?= $holiday->repeateDate ?></td>
+                    <td><?= $holiday->repeate ?></td>
                     <td><?= $this->tag->linkTo(['holidays/delete/' . $holiday->id, 'удалить', 'class' => 'btn btn-secondary btn-lg active']) ?></td>
                 </tr>
                 <?php } ?>

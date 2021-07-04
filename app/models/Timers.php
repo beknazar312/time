@@ -6,11 +6,11 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * SuccessLogins. This model registers successfull logins registered users have made
- * Vokuro\Models\SuccessLogins
- * @package Vokuro\Models
+ * Timers. This model registers times when user click start and stop
+ * Time\Models\Timerss
+ * @package Time\Models
  */
-class Timer extends Model
+class Timers extends Model
 {
     /** @var integer */
     public $id;
@@ -18,11 +18,14 @@ class Timer extends Model
     /** @var integer */
     public $usersId;
 
-    /** @var datetime */
+    /** @var time */
     public $start;
 
-    /** @var datetime */
+    /** @var time */
     public $stop;
+
+    /** @var timestamp */
+    public $createdAt;
 
     public function initialize()
     {

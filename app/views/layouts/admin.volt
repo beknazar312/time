@@ -6,6 +6,7 @@
       {{ link_to('holidays/index', 'Праздники', 'class': 'p-2 text-dark')}}
       {{ link_to('lates/index', 'Опоздавшие', 'class': 'p-2 text-dark')}}
       {{ link_to('timer/index', 'Тайм', 'class': 'p-2 text-dark')}}
+      {{ link_to('session/logout', 'Выйти', 'class': 'p-2 text-dark')}}
     </nav>
   </div>
 

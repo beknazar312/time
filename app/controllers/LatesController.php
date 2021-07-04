@@ -3,7 +3,7 @@
 namespace Time\Controllers;
 
 use Time\Models\Lates;
-use Time\Models\Workday;
+use Time\Models\Worktime;
 
 class LatesController extends ControllerBase
 {
@@ -21,21 +21,21 @@ class LatesController extends ControllerBase
         }
         $lates = Lates::find([
             'createdAt >= :date:',
-            'bind' => [
-                'date' => $date
-            ]
+                'bind' => [
+                    'date' => $date
+                ]
             ]);
-        $workday = Workday::findFirst(1);
+        $worktime = Worktime::findFirst(1);
 
         $this->view->lates = $lates;
-        $this->view->workday = $workday;
+        $this->view->worktime = $worktime;
 
     }
 
     public function deleteAction($id)
     {
-        $workday = Lates::findFirstById($id);
-        if ($workday->delete()) {
+        $late = Lates::findFirstById($id);
+        if ($late->delete()) {
             return $this->response->redirect('lates');
         }
     }

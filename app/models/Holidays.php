@@ -6,9 +6,9 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * SuccessLogins. This model registers successfull logins registered users have made
- * Vokuro\Models\SuccessLogins
- * @package Vokuro\Models
+ * Holidays. This model registers days when we dont work
+ * Time\Models\Holidays
+ * @package Time\Models
  */
 class Holidays extends Model
 {
@@ -19,7 +19,7 @@ class Holidays extends Model
     public $date;
 
     /** @var string */
-    public $repeatDate;
+    public $repeate;
 
     /** @var date */
     public $createdAt;

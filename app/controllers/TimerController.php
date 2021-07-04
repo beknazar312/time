@@ -2,9 +2,9 @@
 
 namespace Time\Controllers;
 
-use Time\Models\Timer;
+use Time\Models\Timers;
 use Time\Models\Lates;
-use Time\Models\Workday;
+use Time\Models\Worktime;
 use Time\Calendar\Calendar;
 use Time\Total\Total;
 use Time\Models\Users;
@@ -26,12 +26,10 @@ class TimerController extends ControllerBase
             $year = date('Y');
         }
 
-        $totals = Total::totals($month, $year);
-
-        $calendar = new Calendar;
-        $calendar = $calendar->calendar($month, $year);
-        $monthes = Calendar::monthes();
-        $years = Calendar::years();
+        $totals = Total::totals($month, $year); //get array with totals and timers for all users
+        $calendar = Calendar::calendar($month, $year); //get array with calendar and total work hours of month
+        $monthes = Calendar::monthes(); //array with monthes
+        $years = Calendar::years(); //array with years
         $users = Users::find([
             "active = 'Y'",
         ]);
@@ -52,11 +50,12 @@ class TimerController extends ControllerBase
             $identity = $this->auth->getIdentity();
             $usersId = $identity['id'];
 
-            $timer = new Timer;
+            $timer = new Timers;
             $timer->usersId = $usersId;
+            $timer->start = date('Y-m-d H:i:s');
             if ($timer->save()) {
                 $this->isLate($timer->id);
-                $timers = Timer::find([
+                $timers = Timers::find([
                     'usersId = :usersId: AND createdAt >= :date:',
                     'bind' => [
                         'usersId' => $usersId,
@@ -82,10 +81,10 @@ class TimerController extends ControllerBase
             $identity = $this->auth->getIdentity();
             $usersId = $identity['id'];
 
-            $timer = Timer::findFirstById($this->request->getPost('id'));
+            $timer = Timers::findFirstById($this->request->getPost('id'));
             $timer->stop = date('Y-m-d H:i:s');
             if ($timer->save()) {
-                $timers = Timer::find([
+                $timers = Timers::find([
                     'usersId = :usersId: AND createdAt >= :date:',
                     'bind' => [
                         'usersId' => $usersId,
@@ -108,7 +107,7 @@ class TimerController extends ControllerBase
     public function updateAction()
     {
         if ($this->request->isPost()) {
-            $timer = Timer::findFirstById($this->request->getPost('timerId'));
+            $timer = Timers::findFirstById($this->request->getPost('timerId'));
             $timerStartDate = date('Y-m-d', strtotime($timer->start));
             $timerStopDate = date('Y-m-d', strtotime($timer->stop));
             $usersId = $timer->usersId;
@@ -119,7 +118,7 @@ class TimerController extends ControllerBase
             $timer->start = date('Y-m-d H:i:s', strtotime($timerStartDate.' '.$newStartTime));
             $timer->stop = date('Y-m-d H:i:s', strtotime($timerStopDate.' '.$newStopTime));
             if ($timer->save()) {
-                $timers = Timer::find([
+                $timers = Timers::find([
                     'usersId = :usersId: AND DATE_FORMAT(createdAt, "%Y-%m-%d") = :date:',
                     'bind' => [
                         'usersId' => $usersId,
@@ -144,8 +143,8 @@ class TimerController extends ControllerBase
 
     protected function isLate ($timerId) 
     {
-        $timer = Timer::findFirstById($timerId);
-        $timers = Timer::find([
+        $timer = Timers::findFirstById($timerId);
+        $timers = Timers::find([
             'usersId = :usersId: AND createdAt >= :date:',
             'bind' => [
                 'usersId' => $timer->usersId,
@@ -153,7 +152,7 @@ class TimerController extends ControllerBase
             ]
         ]);
 
-        $workday = Workday::findFirst(1);
+        $workday = Worktime::findFirst(1);
         $workdayStart = new \DateTime($workday->time);
         $timerStart = $timer->start;
 

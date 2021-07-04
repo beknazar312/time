@@ -2,17 +2,19 @@
 
 namespace Time\Total;
 
-use Time\Models\Timer;
+use Time\Models\Timers;
 
 class Total
 {
     public static function totals($month, $year) {
         
+        // get first and last days of month
         $dateFrom = $year.'-'.$month.'-1';
         $lastDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $dateTo = $year.'-'.$month.'-'.$lastDate;
 
-        $timers = Timer::find([
+        // find all timers of month
+        $timers = Timers::find([
             'createdAt >= :dateFrom: AND createdAt <= :dateTo:',
             'bind' => [
                 'dateFrom' => $dateFrom,
@@ -22,8 +24,9 @@ class Total
         
         $totals = [];
 
+        //sort timers by date and user id
         foreach ($timers as $timer) {
-            $date = date('d',strtotime($timer->createdAt))*1;
+            $date = date('d',strtotime($timer->createdAt))*1; //timers created date without 0
             $usersId = $timer->usersId;
 
             $totals[$date][$usersId]['timers'][] = $timer;
@@ -31,10 +34,11 @@ class Total
             $startTime = $timer->start;
             $stopTime = $timer->stop;
 
-            if ($stopTime == null && date('Y-m-d', strtotime($startTime)) == date('Y-m-d')) {
+            //if timer created at today and stop == null
+            if ($stopTime == null && date('Y-m-d', strtotime($startTime)) == date('Y-m-d')) { 
                 $stopTime = date('Y-m-d H:i:s');
-            } else if($stopTime == null) {
-                $stopTime = date('Y-m-d 18:00:00');
+            } else if($stopTime == null) {  
+                $stopTime = date('Y-m-d 18:00:00');  //if created at not today but not stoped. srop time = 18:00
             }
 
             $seansTotal = (strtotime($stopTime) - strtotime($startTime))/60;
@@ -71,7 +75,7 @@ class Total
         $lastDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $dateTo = $year.'-'.$month.'-'.$lastDate;
 
-        $timers = Timer::find([
+        $timers = Timers::find([
             'createdAt >= :dateFrom: AND createdAt <= :dateTo: AND usersId = :usersId:',
             'bind' => [
                 'dateFrom' => $dateFrom,

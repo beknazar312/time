@@ -16,13 +16,17 @@ $(document).ready(function () {
                 email:email,
                 password:password,
             },
-            success:function(data){
+            success:function(data) {
+                $('#list').html(data);
+                data = $.parseJSON(data);
+                if (typeof data['errors'] != 'undefined') {
+                  alert(data['errors']);
+                };
                 $('#name').val('')
                 $('#login').val('');
                 $('#email').val('')
                 $('#password').val('');
                 $('#exampleModalCenter').modal('hide');
-                data = $.parseJSON(data);
                 setList(data);
             }
         });
@@ -37,8 +41,11 @@ $(document).ready(function () {
             url: "/time/users/delete",
             data: {id:id},
             success:function(data){
-                data = $.parseJSON(data);
-                setList(data);
+              data = $.parseJSON(data);
+              if (typeof data['errors'] != 'undefined') {
+                alert(data['errors']);
+              };
+              setList(data);
             }
         });
     });
@@ -133,6 +140,9 @@ $(document).ready(function () {
               url: "/time/timer/start",
               success:function(data){
                 data = $.parseJSON(data);
+                if (typeof data['errors'] != 'undefined') {
+                  alert(data['errors']);
+                };
                 getTimers(data);
               }
           });
@@ -147,6 +157,9 @@ $(document).ready(function () {
               data: {id:id},
               success:function(data){
                 data = $.parseJSON(data);
+                if (typeof data['errors'] != 'undefined') {
+                  alert(data['errors']);
+                };
                 getTimers (data);
               }
           });
@@ -210,6 +223,9 @@ $(document).ready(function () {
             },
             success:function(data){
               data = $.parseJSON(data);
+                if (typeof data['errors'] != 'undefined') {
+                  alert(data['errors']);
+                };
               getTimersOnEdit(data);
               $('#exampleModalCenter').modal('hide');
             }
@@ -227,8 +243,5 @@ $(document).ready(function () {
         body += '<p>total: '+data.total+'</p>';
         $(data.id).html(body);
       }
-
-
-
 
 })

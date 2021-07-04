@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-4">
-        <form action="/time/Workday/update" method="POST" style="margin: 50px"> 
+        <form action="/time/worktime/update" method="POST" style="margin: 50px"> 
             <div class="form-group" >
               <label>Выбрать время начала рабочего дня</label>
-              <input value="{{workday.time}}" name="time" type="time" class="form-control">
+              <input value="{{worktime.time}}" name="time" type="time" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{late.user.name}}</td>
                     <td>{{late.user.email}}</td>
-                    <td>{{late.createdAt}}</td>
+                    <td>{{late.created}}</td>
                     <td>{{ link_to('lates/delete/' ~late.id, 'удалить' , 'class': 'btn btn-secondary btn-lg active') }}</td>
                 </tr>
                 {% endfor %}

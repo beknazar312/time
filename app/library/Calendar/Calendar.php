@@ -13,14 +13,14 @@ class Calendar
             'calendar' => []
             ];
 
-        $daysCount = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        $daysCount = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
 
         $holidays = self::getHolidays($daysCount, $month, $year);
 
         for ($i = 1; $i<=$daysCount; $i++)
         {
-            $jd=gregoriantojd($month,$i,$year);
-            $day = jddayofweek($jd,1);
+            $jd=gregoriantojd($month,$i,$year); 
+            $day = jddayofweek($jd,1); //get day name of week
             $calendar['calendar'][$i]['day'] = $day;
 
             if ($day == 'Saturday' || $day == 'Sunday' || in_array($i,$holidays)) {
@@ -40,7 +40,7 @@ class Calendar
         $dateTo = $year.'-'.$month.'-'.$lastDate;
 
         $holidays = Holidays::find([
-            'date >= :dateFrom: AND date <= :dateTo: OR month(date) = '.$month.' AND repeateDate = :repeate:',
+            'date >= :dateFrom: AND date <= :dateTo: OR month(date) = '.$month.' AND repeate = :repeate:',
             'order' => 'date',
             'bind' => [
                 'dateFrom' => $dateFrom,

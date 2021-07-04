@@ -10,7 +10,7 @@ return new Config([
         'adapter'     => 'Mysql',
         'host'        => 'localhost',
         'username'    => 'root',
-        'password'    => '',
+        'password'    => 'root',
         'dbname'      => 'time',
         'charset'     => 'utf8',
     ],

@@ -6,9 +6,9 @@ namespace Time\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * SuccessLogins. This model registers successfull logins registered users have made
- * Vokuro\Models\SuccessLogins
- * @package Vokuro\Models
+ * Lates. This model registers pupils who late
+ * Time\Models\Lates
+ * @package Time\Models
  */
 class Lates extends Model
 {
