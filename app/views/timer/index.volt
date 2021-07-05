@@ -30,7 +30,7 @@
             {% endif %}
             >
               <tr 
-              {%  if month != date('m') or index != date('d') %}
+              {%  if month == date('m') and index != date('d') %}
                 style="display:none" class="hide-show"
               {% endif %}
               >

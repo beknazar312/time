@@ -12,11 +12,13 @@ class UsersController extends ControllerBase
         $this->view->setTemplateBefore('admin');
     }
 
+    //display all users
     public function indexAction()
     {
         $this->view->users = Users::find();
     }
 
+    //create new user
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -42,6 +44,7 @@ class UsersController extends ControllerBase
         }
     }
 
+    //check user as deleted
     public function deleteAction() 
     {
         if ($this->request->isPost()) {
@@ -60,6 +63,7 @@ class UsersController extends ControllerBase
         }
     }
 
+    //update user
     public function updateAction() 
     {
         if ($this->request->isPost()) {
@@ -77,6 +81,7 @@ class UsersController extends ControllerBase
         }
     }
 
+    //change user password
     public function changePasswordAction()
     {
         $form = new ChangePasswordForm();
@@ -100,8 +105,7 @@ class UsersController extends ControllerBase
                     $this->flash->error($passwordChange->getMessages());
                 } else {
                     $this->flash->success('Your password was successfully changed');
-
-                    $form->clear();
+                    return $this->response->redirect('index');
                 }
             }
         }

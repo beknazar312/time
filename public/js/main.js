@@ -17,7 +17,6 @@ $(document).ready(function () {
                 password:password,
             },
             success:function(data) {
-                $('#list').html(data);
                 data = $.parseJSON(data);
                 if (typeof data['errors'] != 'undefined') {
                   alert(data['errors']);

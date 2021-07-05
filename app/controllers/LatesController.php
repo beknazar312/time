@@ -14,6 +14,7 @@ class LatesController extends ControllerBase
         $this->view->setTemplateBefore('admin');
     }
 
+    //display lates list
     public function indexAction()
     {
         $date = date('Y-m-d');
@@ -52,6 +53,7 @@ class LatesController extends ControllerBase
 
     }
 
+    //delete late
     public function deleteAction($id)
     {
         $late = Lates::findFirstById($id);

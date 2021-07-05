@@ -12,6 +12,7 @@ class HolidaysController extends ControllerBase
     }
 
 
+    //Display the "Holidays" page.
     public function indexAction()
     {
         $holidays = Holidays::find([
@@ -26,6 +27,8 @@ class HolidaysController extends ControllerBase
         $this->view->holidays = $holidays;
     }
 
+
+    //set Holiday.
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -48,6 +51,8 @@ class HolidaysController extends ControllerBase
         }
     }
 
+
+    // Display the "Holidays" page.
     public function deleteAction($id) 
     {
         $holiday = Holidays::findFirstById($id);

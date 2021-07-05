@@ -65,7 +65,10 @@
                 </td>
               </tr>
               {% else %}
-              <tr style="display:none" class="hide-show">
+              <tr  class="hide-show" 
+              {% if month == date('m') %}
+              style="display:none"
+              {% endif %}>
                 <th scope="row">{{index}}<br>{{value['day']}}</th>
                 {% for user3 in users %}
                 <td>

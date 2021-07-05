@@ -30,7 +30,7 @@
             <?php } ?>
             >
               <tr 
-              <?php if ($month != date('m') || $index != date('d')) { ?>
+              <?php if ($month == date('m') && $index != date('d')) { ?>
                 style="display:none" class="hide-show"
               <?php } ?>
               >
