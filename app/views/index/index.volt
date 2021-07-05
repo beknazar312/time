@@ -85,7 +85,7 @@
               {% endif %}
             </tbody>
             {% endfor %}
-          </table>
+      </table>
     </div>
 </div>
 

@@ -55,19 +55,7 @@ class TimerController extends ControllerBase
             $timer->start = date('Y-m-d H:i:s');
             if ($timer->save()) {
                 $this->isLate($timer->id);
-                $timers = Timers::find([
-                    'usersId = :usersId: AND createdAt >= :date:',
-                    'bind' => [
-                        'usersId' => $usersId,
-                        'date' => date("Y-m-d")
-                    ]
-                ]);
-                $this->response->setJsonContent(json_encode([
-                    'timers' => $timers,
-                    'id' => $id,
-                    'total' => $this->total($timers)
-                ]));
-                return $this->response;
+                return getUserTimers($usersId);
             } else {
                 $this->response->setJsonContent(json_encode(['error' => 'wrong']));
                 return $this->response;
@@ -84,19 +72,7 @@ class TimerController extends ControllerBase
             $timer = Timers::findFirstById($this->request->getPost('id'));
             $timer->stop = date('Y-m-d H:i:s');
             if ($timer->save()) {
-                $timers = Timers::find([
-                    'usersId = :usersId: AND createdAt >= :date:',
-                    'bind' => [
-                        'usersId' => $usersId,
-                        'date' => date("Y-m-d")
-                    ]
-                ]);
-                $this->response->setJsonContent(json_encode([
-                    'timers' => $timers,
-                    'id' => $id,
-                    'total' => $this->total($timers)
-                ]));
-                return $this->response;
+                return getUserTimers($usersId);
             } else {
                 $this->response->setJsonContent(json_encode(['error' => 'wrong']));
                 return $this->response;
@@ -179,6 +155,23 @@ class TimerController extends ControllerBase
         $minutes = ($minutes % 60);
         
         return sprintf($format, $hours, $minutes);
+    }
+
+    public function getUserTimers($usersId)
+    {
+        $timers = Timers::find([
+            'usersId = :usersId: AND createdAt >= :date:',
+            'bind' => [
+                'usersId' => $usersId,
+                'date' => date("Y-m-d")
+            ]
+        ]);
+        $this->response->setJsonContent(json_encode([
+            'timers' => $timers,
+            'total' => $this->total($timers)
+        ]));
+
+        return $this->response;
     }
 
 }
