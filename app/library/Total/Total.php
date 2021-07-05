@@ -6,8 +6,12 @@ use Time\Models\Timers;
 
 class Total
 {
+    /**
+     * sort all users timers of month to array.
+     *
+     * @return array
+     */
     public static function totals($month, $year) {
-        
         // get first and last days of month
         $dateFrom = $year.'-'.$month.'-1';
         $lastDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -54,6 +58,7 @@ class Total
         return $totals;
     }
 
+    // minutes to hours
     public static function minutesToHours($minutes, $total = null) {
         $format = '%02d:%02d';
 
@@ -69,6 +74,7 @@ class Total
         return sprintf($format, $hours, $minutes);
     }
 
+    // return string. How match hours user work
     public static function totalHoursOfMonth ($month, $year, $usersId) {
 
         $dateFrom = $year.'-'.$month.'-1';

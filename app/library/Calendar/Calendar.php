@@ -6,6 +6,11 @@ use Time\Models\Holidays;
 
 class Calendar
 {
+    /**
+     * create array with date and total work hours of month
+     *
+     * @return array
+     */
     public static function calendar ($month, $year) 
     {
         $calendar =  [
@@ -34,6 +39,11 @@ class Calendar
         return $calendar;
     }
 
+    /**
+     * return array with holidays
+     *
+     * @return array
+     */
     public static function  getHolidays($lastDate, $month, $year)
     {
         $dateFrom = $year.'-'.$month.'-1';
@@ -58,6 +68,7 @@ class Calendar
         return $holydaysDates;
     }
 
+    // return array with monthes
     public static function monthes() 
     {
         return [
@@ -76,6 +87,7 @@ class Calendar
         ];
     }
 
+    // return array with years 
     public static function years() 
     {
         $years = [];
@@ -86,6 +98,7 @@ class Calendar
         return $years;
     }
 
+    // return array with days 
     public static function days($month, $year) 
     {
         $days = [];
