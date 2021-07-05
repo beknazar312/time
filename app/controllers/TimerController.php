@@ -144,19 +144,18 @@ class TimerController extends ControllerBase
     protected function isLate ($timerId) 
     {
         $timer = Timers::findFirstById($timerId);
-        $timers = Timers::find([
+        $timers = Timers::count([
             'usersId = :usersId: AND createdAt >= :date:',
             'bind' => [
                 'usersId' => $timer->usersId,
                 'date' => date("Y-m-d")
             ]
         ]);
-
-        $workday = Worktime::findFirst(1);
-        $workdayStart = new \DateTime($workday->time);
-        $timerStart = $timer->start;
-
-        if (count($timers) === 1 && $workdayStart < $timerStart) {
+        
+        $worktime = Worktime::findFirst(1);
+        $worktimeStart = new \DateTime($worktime->time);
+        $timerStart = new \DateTime($timer->start);
+        if ($timers == 1 && $worktimeStart < $timerStart) {
             $lates = new Lates;
             $lates->usersId = $timer->usersId;
             $lates->save();

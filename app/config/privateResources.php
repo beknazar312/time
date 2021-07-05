@@ -7,7 +7,9 @@ return new Config([
         'users' => [
             'index',
             'create',
-            'delete'
+            'delete',
+            'changePassword',
+            'update'
         ],
         'holidays' => [
             'index',

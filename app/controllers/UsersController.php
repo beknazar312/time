@@ -2,6 +2,8 @@
 namespace Time\Controllers;
 
 use Time\Models\Users;
+use Time\Models\PasswordChanges;
+use Time\Forms\ChangePasswordForm;
 
 class UsersController extends ControllerBase
 {
@@ -12,9 +14,7 @@ class UsersController extends ControllerBase
 
     public function indexAction()
     {
-        $this->view->users = Users::find([
-            "active = 'Y'",
-        ]);
+        $this->view->users = Users::find();
     }
 
     public function createAction()
@@ -31,7 +31,7 @@ class UsersController extends ControllerBase
                 ]);
 
                 if ($user->save()) {
-                    $users = Users::find(["active = 'Y'"]);
+                    $users = Users::find();
                     $this->response->setJsonContent(json_encode(['users' => $users]));
                     return $this->response;
                 } else {
@@ -49,7 +49,7 @@ class UsersController extends ControllerBase
                 $user = Users::findFirstById($this->request->getPost('id'));
                 $user->active =  'N'; 
                 if ($user->save()) {
-                    $users = Users::find(["active = 'Y'"]);
+                    $users = Users::find();
                     $this->response->setJsonContent(json_encode(['users' => $users]));
                     return $this->response;
                 } else {
@@ -58,6 +58,55 @@ class UsersController extends ControllerBase
                 }
             }
         }
+    }
+
+    public function updateAction() 
+    {
+        if ($this->request->isPost()) {
+            $user = Users::findFirstById($this->request->getPost('id'));
+            $user->active = $this->request->getPost('active'); 
+            $user->name = $this->request->getPost('name');
+            $user->login = $this->request->getPost('login');
+            $user->email = $this->request->getPost('email');
+            if (!$user->save()) {
+                foreach ($user->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+            } 
+            return $this->response->redirect('users');
+        }
+    }
+
+    public function changePasswordAction()
+    {
+        $form = new ChangePasswordForm();
+
+        if ($this->request->isPost()) {
+            if (!$form->isValid($this->request->getPost())) {
+                foreach ($form->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+            } else {
+                $user = $this->auth->getUser();
+
+                $user->password = $this->security->hash($this->request->getPost('password'));
+
+                $passwordChange = new PasswordChanges();
+                $passwordChange->user = $user;
+                $passwordChange->ipAddress = $this->request->getClientAddress();
+                $passwordChange->userAgent = $this->request->getUserAgent();
+
+                if (!$passwordChange->save()) {
+                    $this->flash->error($passwordChange->getMessages());
+                } else {
+                    $this->flash->success('Your password was successfully changed');
+
+                    $form->clear();
+                }
+            }
+        }
+
+        $this->view->form = $form;
     }
 }
 

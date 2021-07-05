@@ -50,13 +50,36 @@ $(document).ready(function () {
         });
     });
 
+      // edit user
+      $('#list').on('click','.edit',function () {
+          var id = $(this).attr('id');
+          var name = $(this).attr('data-name');
+          var login = $(this).attr('data-login');
+          var email = $(this).attr('data-email');
+          var active = $(this).attr('data-active');
+  
+          $('#idEdit').val(id);
+          $('#nameEdit').val(name);
+          $('#loginEdit').val(login);
+          $('#emailEdit').val(email);
+          $('#activeEdit').val(active);
+
+          $('#exampleModalCenter2').modal('show');
+      });
+
     // update user list
     function setList(data) {
         var list = '';
 
         for(var i = 0; i < data.users.length; i++) {
-            list += "<li class='list-group-item'><div class='row'><b class='col-10'>"+data.users[i].name+"</b> <button id='"+data.users[i].id+"' class='delete col-2'>Удалить</button></div></li>";
-        }
+            list += "<li class='list-group-item'>"+
+            "<div class='row'><b class='col-7'>"+data.users[i].name+"</b>"+
+              "<b class='col-1'>"+data.users[i].active+"</b>"+
+              "<button id='"+data.users[i].id+"' data-name='"+data.users[i].name+"' data-login='"+data.users[i].login+"' data-email='"+data.users[i].email+"' data-active='"+data.users[i].active+"' class='edit col-2'>Изменить</button>"+
+              "<button id='"+data.users[i].id+"' class='delete col-2'>Удалить</button>"+
+            "</div>"+
+            "</li>";
+          }
         $('#list').html(list);
         
     }

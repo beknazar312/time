@@ -14,7 +14,6 @@ class HolidaysController extends ControllerBase
 
     public function indexAction()
     {
-        // get all holidays 
         $holidays = Holidays::find([
             'date>=:date: OR repeate=:repeate:',
             'order' => 'date',

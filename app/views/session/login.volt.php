@@ -16,16 +16,13 @@
                         </div>
                         <div class="form-group">
                             <label for="password" class="text-info">Password:</label><br>
-                            <input reqired type="text" name="password" id="password" class="form-control">
+                            <input reqired type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="remember-me" class="text-info"><span>Remember me</span> <span><input checked id="remember" name="remember" type="checkbox"></span></label><br>
                             <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                         </div>
                         <input id="csrf" name="csrf" type="hidden" value="<?= $this->security->getToken() ?>">
-                        <div id="register-link" class="text-right">
-                            <a href="#" class="text-info">Забыли пароль?</a>
-                        </div>
                     </form>
                 </div>
             </div>
