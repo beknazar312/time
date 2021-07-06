@@ -19,7 +19,7 @@ $router->addPost('/holidays/create', [
     'action' => 'create'
 ]);
 
-$router->addPost('/holidays/delete/{id}/', [
+$router->addPost('/holidays/delete/{id}', [
     'controller' => 'holidays',
     'action' => 'delete'
 ]);
