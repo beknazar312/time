@@ -1,6 +1,6 @@
 {{content()}}
 
-<div style="padding-left: 20px" class="text-left">
+<div class="text-left">
     <div class="row">
         <div class="col-4">
             <p>You have: {{totalHoursOfMonth}}</p>
@@ -36,7 +36,7 @@
             {% for index,value in calendar['calendar'] %}
             <tbody
             {%  if value['weekend'] == 1 %}
-              style="background:rgb(219, 130, 130)"
+              class="weekend"
             {% endif %}
             >
               {% if month == date('m') and index == date('d') %}
@@ -65,9 +65,9 @@
                 </td>
               </tr>
               {% else %}
-              <tr  class="hide-show" 
+              <tr  
               {% if month == date('m') %}
-              style="display:none"
+                class="hide-show hide" 
               {% endif %}>
                 <th scope="row">{{index}}<br>{{value['day']}}</th>
                 {% for user3 in users %}

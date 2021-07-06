@@ -112,6 +112,28 @@ class Total
         return sprintf($format, $hours, $minutes);
     }
 
+    /**
+     * get total of today for ajax response
+     */
+    public static function today ($timers) {
+        $format = '%02d:%02d';
+        $minutes = 0;
+
+        foreach ($timers as $timer) {
+            if ($timer->stop != null) {
+                $minutes += (strtotime($timer->stop) - strtotime($timer->start))/60;
+            } else {
+                $minutes += (strtotime(date('Y-m-d H:i:s')) - strtotime($timer->start))/60;
+            }
+            $minutes = round($minutes);
+        }
+
+        $hours = floor($minutes / 60);
+        $minutes = ($minutes % 60);
+        
+        return sprintf($format, $hours, $minutes);
+    }
+
 
 }
 

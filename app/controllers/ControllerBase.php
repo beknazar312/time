@@ -25,7 +25,6 @@ class ControllerBase extends Controller
 
             // If there is no identity available the user is redirected to index/index
             if (!is_array($identity)) {
-                
                 $this->flash->notice('You don\'t have access to this module: private');
 
                 $dispatcher->forward([
@@ -35,16 +34,29 @@ class ControllerBase extends Controller
 
                 return false;
             }
+            
+            // If is guest
+            if ($identity['profile'] == 'Guest') {
+
+            }
 
             // Check if the user have permission to the current option
             $actionName = $dispatcher->getActionName();
             if (!$this->acl->isAllowed($identity['profile'], $controllerName, $actionName)) {
                 $this->flash->notice('You don\'t have access to this module: ' . $controllerName . ':' . $actionName);
 
-                $dispatcher->forward([
-                    'controller' => 'index',
-                    'action' => 'index'
-                ]);
+                // If is guest
+                if ($identity['profile'] == 'Guest') {
+                    $dispatcher->forward([
+                        'controller' => 'index',
+                        'action' => 'readOnly'
+                    ]);
+                } else {
+                    $dispatcher->forward([
+                        'controller' => 'index',
+                        'action' => 'index'
+                    ]);
+                }
 
                 return false;
             }

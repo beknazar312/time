@@ -159,7 +159,7 @@ $(document).ready(function () {
       $('#table').on('click', '#start', function () {
         $.ajax({
               type: "POST",
-              url: "/time/timer/start",
+              url: "/time/timer/timer",
               success:function(data){
                 data = $.parseJSON(data);
                 if (typeof data['errors'] != 'undefined') {
@@ -175,7 +175,7 @@ $(document).ready(function () {
 
         $.ajax({
               type: "POST",
-              url: "/time/timer/stop",
+              url: "/time/timer/timer",
               data: {id:id},
               success:function(data){
                 data = $.parseJSON(data);

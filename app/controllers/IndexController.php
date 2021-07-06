@@ -72,8 +72,33 @@ class IndexController extends ControllerBase
         ]);
     }
 
-    public function updateAction() {
-        echo 'test';
+    public function readOnlyAction()
+    {
+        if ($this->request->isPost()) {
+            $month = $this->request->getPost('month');
+            $year = $this->request->getPost('year');
+        } else {
+            $month = date('m');
+            $year = date('Y');
+        }
+
+        $totals = Total::totals($month, $year); //get array with totals and timers for all users
+        $calendar = Calendar::calendar($month, $year); //get array with calendar and total work hours of month
+        $monthes = Calendar::monthes(); //array with monthes
+        $years = Calendar::years(); //array with years
+        $users = Users::find([
+            "active = 'Y'",
+        ]);
+
+        $this->view->setVars([
+            'totals' => $totals,
+            'month' => $month,
+            'year' => $year,
+            'calendar' => $calendar,
+            'users' => $users,
+            'years' => $years,
+            'monthes' => $monthes,
+        ]);
     }
 
 }

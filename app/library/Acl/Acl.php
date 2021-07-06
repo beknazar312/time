@@ -42,7 +42,6 @@ class Acl extends Component
      */
     private $actionDescriptions = [
         'index' => 'Access',
-        'search' => 'Search',
         'create' => 'Create',
         'edit' => 'Edit',
         'delete' => 'Delete',

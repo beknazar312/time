@@ -1,6 +1,6 @@
 <?= $this->getContent() ?>
 
-<div style="padding-left: 20px" class="text-left">
+<div class="text-left">
     <div class="row">
         <div class="col-4">
             <p>You have: <?= $totalHoursOfMonth ?></p>
@@ -36,7 +36,7 @@
             <?php foreach ($calendar['calendar'] as $index => $value) { ?>
             <tbody
             <?php if ($value['weekend'] == 1) { ?>
-              style="background:rgb(219, 130, 130)"
+              class="weekend"
             <?php } ?>
             >
               <?php if ($month == date('m') && $index == date('d')) { ?>
@@ -65,9 +65,9 @@
                 </td>
               </tr>
               <?php } else { ?>
-              <tr  class="hide-show" 
+              <tr  
               <?php if ($month == date('m')) { ?>
-              style="display:none"
+                class="hide-show hide" 
               <?php } ?>>
                 <th scope="row"><?= $index ?><br><?= $value['day'] ?></th>
                 <?php $v26562400262iterator = $users; $v26562400262incr = 0; $v26562400262loop = new stdClass(); $v26562400262loop->self = &$v26562400262loop; $v26562400262loop->length = count($v26562400262iterator); $v26562400262loop->index = 1; $v26562400262loop->index0 = 1; $v26562400262loop->revindex = $v26562400262loop->length; $v26562400262loop->revindex0 = $v26562400262loop->length - 1; ?><?php foreach ($v26562400262iterator as $user3) { ?><?php $v26562400262loop->first = ($v26562400262incr == 0); $v26562400262loop->index = $v26562400262incr + 1; $v26562400262loop->index0 = $v26562400262incr; $v26562400262loop->revindex = $v26562400262loop->length - $v26562400262incr; $v26562400262loop->revindex0 = $v26562400262loop->length - ($v26562400262incr + 1); $v26562400262loop->last = ($v26562400262incr == ($v26562400262loop->length - 1)); ?>

@@ -9,6 +9,11 @@ $router->add('/', [
     'action' => 'index'
 ]);
 
+$router->add('/read-only', [
+    'controller' => 'index',
+    'action' => 'readOnly'
+]);
+
 $router->add('/holidays', [
     'controller' => 'holidays',
     'action' => 'index'
@@ -54,15 +59,11 @@ $router->add('/timer', [
     'action' => 'index',
 ]);
 
-$router->addPost('/timer/start', [
+$router->addPost('/timer/timer', [
     'controller' => 'timer',
-    'action' => 'start',
+    'action' => 'timer',
 ]);
 
-$router->addPost('/timer/stop', [
-    'controller' => 'timer',
-    'action' => 'stop',
-]);
 
 $router->addPost('/timer/update', [
     'controller' => 'timer',

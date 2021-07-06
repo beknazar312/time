@@ -42,12 +42,10 @@
                         {% if timer.stop != null %}
                           <div class="row">
                             <li>{{date('H:i',strtotime(timer.start))}} - {{date('H:i',strtotime(timer.stop))}}</li>
-                            <button data-id="{{timer.id}}" data-start="{{date('H:i',strtotime(timer.start))}}" data-stop="{{date('H:i',strtotime(timer.stop))}}" class="change-timer">edit</button>
                           </div>
                         {% else %}
                           <div class="row">
                             <li>{{date('H:i',strtotime(timer.start))}} - </li>
-                            <button data-id="{{timer.id}}" data-start="{{date('H:i',strtotime(timer.start))}}" data-stop="{{date('H:i',strtotime(timer.stop))}}" class="change-timer">edit</button>
                           </div>
                         {% endif %}
                     {% endfor %}
@@ -60,35 +58,4 @@
             {% endfor %}
           </table>
     </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Изменить время начала и конца сеанса</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form > 
-          <div class="form-group" >
-            <label>Выбрать время начала сеанса</label>
-            <input value="" name="start" id="start" type="time" class="form-control">
-          </div>
-          <div class="form-group" >
-            <label>Выбрать время окончания сеанса</label>
-            <input value="" name="stop" id="stop" type="time" class="form-control">
-          </div>
-          <input type="hidden" name="timerId" id="timerId" value="">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-        <button id="send-newtime" type="button" class="btn btn-primary">Сохранить</button>
-      </div>
-    </div>
-  </div>
 </div>

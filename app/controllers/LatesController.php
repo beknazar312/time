@@ -19,7 +19,6 @@ class LatesController extends ControllerBase
      */
     public function indexAction()
     {
-        $date = date('Y-m-d');
 
         if ($this->request->isPost()) {
             $day = $this->request->getPost('day');

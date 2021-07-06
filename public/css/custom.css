@@ -50,3 +50,11 @@ html {
 .change-timer {
   margin-left: 10px;
 }
+
+.hide {
+  display: none
+}
+
+.weekend {
+  background:rgb(219, 130, 130)
+}

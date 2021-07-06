@@ -23,14 +23,14 @@ return new Config([
         'timer' => [
             'index',
             'update',
-            'start',
-            'stop'
+            'timer',
         ],
         'worktime' => [
             'update'
         ],
         'index' => [
-            'index'
+            'index',
+            'readOnly'
         ]
     ]
 ]);

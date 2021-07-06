@@ -7,6 +7,7 @@ use Time\Models\Lates;
 use Time\Models\Worktime;
 use Time\Calendar\Calendar;
 use Time\Total\Total;
+use Time\Late\Late;
 use Time\Models\Users;
 
 
@@ -37,14 +38,6 @@ class TimerController extends ControllerBase
         $users = Users::find([
             "active = 'Y'",
         ]);
-        
-        $this->view->totals = $totals;
-        $this->view->month = $month;
-        $this->view->year = $year;
-        $this->view->calendar = $calendar;
-        $this->view->users = $users;
-        $this->view->years = $years;
-        $this->view->monthes = $monthes;
 
         $this->view->setVars([
             'totals' => $totals,
@@ -59,40 +52,39 @@ class TimerController extends ControllerBase
     }
 
     /**
-     * start timer
+     * start and stop timer
      */
-    public function startAction() 
+    public function timerAction() 
     {
         if ($this->request->isPost()) {
             $identity = $this->auth->getIdentity();
             $usersId = $identity['id'];
-
-            $timer = new Timers;
-            $timer->usersId = $usersId;
-            $timer->start = date('Y-m-d H:i:s');
-            if ($timer->save()) {
-                $this->isLate($timer->id);
-                return $this->getUserTimers($usersId);
+            if (!$this->request->getPost('id')) {
+                $timer = new Timers;
+                $timer->usersId = $usersId;
+                $timer->start = date('Y-m-d H:i:s');
             } else {
-                $this->response->setJsonContent(json_encode(['error' => 'wrong']));
-                return $this->response;
+                $timer = Timers::findFirstById($this->request->getPost('id'));
+                $timer->stop = date('Y-m-d H:i:s');
             }
-        }
-    }
 
-    /**
-     * stop timer
-     */
-    public function stopAction() 
-    {
-        if ($this->request->isPost()) {
-            $identity = $this->auth->getIdentity();
-            $usersId = $identity['id'];
-
-            $timer = Timers::findFirstById($this->request->getPost('id'));
-            $timer->stop = date('Y-m-d H:i:s');
             if ($timer->save()) {
-                return $this->getUserTimers($usersId);
+                if ($this->request->getPost('id')) {
+                    Late::isLate($timer->id);
+                }
+                $timers = Timers::find([
+                    'usersId = :usersId: AND createdAt >= :date:',
+                    'bind' => [
+                        'usersId' => $usersId,
+                        'date' => date("Y-m-d")
+                    ]
+                ]);
+                $this->response->setJsonContent(json_encode([
+                    'timers' => $timers,
+                    'total' => Total::today($timers)
+                ]));
+
+                return $this->response;
             } else {
                 $this->response->setJsonContent(json_encode(['error' => 'wrong']));
                 return $this->response;
@@ -116,6 +108,7 @@ class TimerController extends ControllerBase
 
             $timer->start = date('Y-m-d H:i:s', strtotime($timerStartDate.' '.$newStartTime));
             $timer->stop = date('Y-m-d H:i:s', strtotime($timerStopDate.' '.$newStopTime));
+
             if ($timer->save()) {
                 $timers = Timers::find([
                     'usersId = :usersId: AND DATE_FORMAT(createdAt, "%Y-%m-%d") = :date:',
@@ -126,7 +119,7 @@ class TimerController extends ControllerBase
                 ]);
 
                 $id = '#'.date('j', strtotime($timerStartDate)).'-'.$usersId;
-
+                
                 $this->response->setJsonContent(json_encode([
                     'timers' => $timers,
                     'id' => $id,
@@ -139,72 +132,5 @@ class TimerController extends ControllerBase
             }
         }
     } 
-
-    /**
-     * check late or not
-     */
-    protected function isLate ($timerId) 
-    {
-        $timer = Timers::findFirstById($timerId);
-        $timers = Timers::count([
-            'usersId = :usersId: AND createdAt >= :date:',
-            'bind' => [
-                'usersId' => $timer->usersId,
-                'date' => date("Y-m-d")
-            ]
-        ]);
-        
-        $worktime = Worktime::findFirst(1);
-        $worktimeStart = new \DateTime($worktime->time);
-        $timerStart = new \DateTime($timer->start);
-        if ($timers == 1 && $worktimeStart < $timerStart) {
-            $lates = new Lates;
-            $lates->usersId = $timer->usersId;
-            $lates->save();
-        }
-    }
-
-    /**
-     * get total of today for ajax response
-     */
-    public function total($timers) {
-        $format = '%02d:%02d';
-        $minutes = 0;
-
-        foreach ($timers as $timer) {
-            if ($timer->stop != null) {
-                $minutes += (strtotime($timer->stop) - strtotime($timer->start))/60;
-            } else {
-                $minutes += (strtotime(date('Y-m-d H:i:s')) - strtotime($timer->start))/60;
-            }
-            $minutes = round($minutes);
-        }
-
-        $hours = floor($minutes / 60);
-        $minutes = ($minutes % 60);
-        
-        return sprintf($format, $hours, $minutes);
-    }
-
-    /**
-     * get timers of today for ajax response
-     */
-    public function getUserTimers($usersId)
-    {
-        $timers = Timers::find([
-            'usersId = :usersId: AND createdAt >= :date:',
-            'bind' => [
-                'usersId' => $usersId,
-                'date' => date("Y-m-d")
-            ]
-        ]);
-        $this->response->setJsonContent(json_encode([
-            'timers' => $timers,
-            'total' => $this->total($timers)
-        ]));
-
-        return $this->response;
-    }
-
 }
 
