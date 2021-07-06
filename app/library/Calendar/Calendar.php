@@ -8,8 +8,6 @@ class Calendar
 {
     /**
      * create array with date and total work hours of month
-     *
-     * @return array
      */
     public static function calendar ($month, $year) 
     {
@@ -68,7 +66,9 @@ class Calendar
         return $holydaysDates;
     }
 
-    // return array with monthes
+    /**
+     * return array with monthes
+     */
     public static function monthes() 
     {
         return [
@@ -87,7 +87,9 @@ class Calendar
         ];
     }
 
-    // return array with years 
+    /**
+     * return array with years 
+     */
     public static function years() 
     {
         $years = [];
@@ -98,7 +100,9 @@ class Calendar
         return $years;
     }
 
-    // return array with days 
+    /**
+     * return array with days 
+     */
     public static function days($month, $year) 
     {
         $days = [];

@@ -4,10 +4,12 @@ namespace Time\Controllers;
 
 use Time\Models\Worktime;
 
+
 class WorktimeController extends ControllerBase
 {
-
-    //update worktime
+    /**
+     * update worktime
+     */
     public function updateAction()
     {
         if ($this->request->isPost()) {

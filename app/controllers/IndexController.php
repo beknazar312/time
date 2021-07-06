@@ -7,9 +7,13 @@ use Time\Models\Lates;
 use Time\Calendar\Calendar;
 use Time\Total\Total;
 
+
 class IndexController extends ControllerBase
 {
-    //page for stop-start 
+
+    /**
+     * page for stop-start 
+     */
     public function indexAction()
     {
         $identity = $this->auth->getIdentity();
@@ -34,12 +38,16 @@ class IndexController extends ControllerBase
             "order" => 'id='.$usersId.' DESC'
         ]);
 
-        //get first and last day of month
+        /**
+         * get first and last day of month
+         */
         $dateFrom = $year.'-'.$month.'-1'; 
         $lastDate = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $dateTo = $year.'-'.$month.'-'.$lastDate; 
 
-        //get how match time late this user
+        /**
+         * get how match time late this user
+         */
         $lates = Lates::count([
             'createdAt >= :dateFrom: AND createdAt <= :dateTo: AND usersId = :usersId:',
             'bind' => [
@@ -49,17 +57,19 @@ class IndexController extends ControllerBase
             ]
         ]);
         
-        $this->view->totalHoursOfMonth = $totalHoursOfMonth;
-        $this->view->totals = $totals;
-        $this->view->month = $month;
-        $this->view->years = $years;
-        $this->view->year = $year;
-        $this->view->calendar = $calendar;
-        $this->view->monthes = $monthes;
-        $this->view->users = $users;
-        $this->view->user = $user;
-        $this->view->lates = $lates;
-        $this->view->administrator = $identity['profile']  == 'Administrators';
+        $this->view->setVars([
+            'totalHoursOfMonth' => $totalHoursOfMonth,
+            'totals' => $totals,
+            'month' => $month,
+            'years' => $years,
+            'year' => $year,
+            'calendar' => $calendar,
+            'monthes' => $monthes,
+            'users' => $users,
+            'user' => $user,
+            'lates' => $lates,
+            'administrator' => $identity['profile']  == 'Administrators',
+        ]);
     }
 
 }

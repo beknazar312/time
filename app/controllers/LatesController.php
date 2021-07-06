@@ -6,15 +6,17 @@ use Time\Models\Lates;
 use Time\Models\Worktime;
 use Time\Calendar\Calendar;
 
+
 class LatesController extends ControllerBase
 {
-
     public function initialize()
     {
         $this->view->setTemplateBefore('admin');
     }
 
-    //display lates list
+    /**
+     * display lates list
+     */
     public function indexAction()
     {
         $date = date('Y-m-d');
@@ -42,14 +44,16 @@ class LatesController extends ControllerBase
         $years = Calendar::years(); //array with years
         $days = Calendar::days($month, $year); //array with days
 
-        $this->view->lates = $lates;
-        $this->view->worktime = $worktime;
-        $this->view->years = $years;
-        $this->view->monthes = $monthes;
-        $this->view->days = $days;
-        $this->view->day = $day;
-        $this->view->month = $month;
-        $this->view->year = $year;
+        $this->view->setVars([
+            'lates' => $lates,
+            'worktime' =>$worktime,
+            'years' => $years,
+            'monthes' => $monthes,
+            'days' => $days,
+            'day' => $day,
+            'month' => $month,
+            'year' => $year,
+        ]);
 
     }
 

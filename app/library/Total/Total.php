@@ -58,7 +58,9 @@ class Total
         return $totals;
     }
 
-    // minutes to hours
+    /**
+     * minutes to hours
+     */
     public static function minutesToHours($minutes, $total = null) {
         $format = '%02d:%02d';
 
@@ -74,7 +76,9 @@ class Total
         return sprintf($format, $hours, $minutes);
     }
 
-    // return string. How match hours user work
+    /**
+     * return string. How match hours user work
+     */
     public static function totalHoursOfMonth ($month, $year, $usersId) {
 
         $dateFrom = $year.'-'.$month.'-1';

@@ -9,6 +9,7 @@ use Time\Calendar\Calendar;
 use Time\Total\Total;
 use Time\Models\Users;
 
+
 class TimerController extends ControllerBase
 {
     public function initialize()
@@ -16,7 +17,9 @@ class TimerController extends ControllerBase
         $this->view->setTemplateBefore('admin');
     }
 
-    //display timers table with all users for admin
+    /**
+     * display timers table with all users for admin
+     */
     public function indexAction()
     {
         if ($this->request->isPost()) {
@@ -42,19 +45,31 @@ class TimerController extends ControllerBase
         $this->view->users = $users;
         $this->view->years = $years;
         $this->view->monthes = $monthes;
+
+        $this->view->setVars([
+            'totals' => $totals,
+            'month' => $month,
+            'year' => $year,
+            'calendar' => $calendar,
+            'users' => $users,
+            'years' => $years,
+            'monthes' => $monthes,
+        ]);
         
     }
 
-    // start timer
+    /**
+     * start timer
+     */
     public function startAction() 
     {
         if ($this->request->isPost()) {
             $identity = $this->auth->getIdentity();
             $usersId = $identity['id'];
+
             $timer = new Timers;
             $timer->usersId = $usersId;
             $timer->start = date('Y-m-d H:i:s');
-            
             if ($timer->save()) {
                 $this->isLate($timer->id);
                 return $this->getUserTimers($usersId);
@@ -65,7 +80,9 @@ class TimerController extends ControllerBase
         }
     }
 
-    //stop timer
+    /**
+     * stop timer
+     */
     public function stopAction() 
     {
         if ($this->request->isPost()) {
@@ -83,7 +100,9 @@ class TimerController extends ControllerBase
         }
     }
 
-    //update timer by admin
+    /**
+     * update timer by admin
+     */
     public function updateAction()
     {
         if ($this->request->isPost()) {
@@ -121,7 +140,9 @@ class TimerController extends ControllerBase
         }
     } 
 
-    //check late or not
+    /**
+     * check late or not
+     */
     protected function isLate ($timerId) 
     {
         $timer = Timers::findFirstById($timerId);
@@ -143,7 +164,9 @@ class TimerController extends ControllerBase
         }
     }
 
-    // get total of today for ajax response
+    /**
+     * get total of today for ajax response
+     */
     public function total($timers) {
         $format = '%02d:%02d';
         $minutes = 0;
@@ -163,7 +186,9 @@ class TimerController extends ControllerBase
         return sprintf($format, $hours, $minutes);
     }
 
-    //get timers of today for ajax response
+    /**
+     * get timers of today for ajax response
+     */
     public function getUserTimers($usersId)
     {
         $timers = Timers::find([

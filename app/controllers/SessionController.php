@@ -12,8 +12,9 @@ use Time\Validation\LoginValidation;
  */
 class SessionController extends ControllerBase
 {
-
-    //login
+    /**
+     * login
+     */
     public function loginAction()
     {
         try {

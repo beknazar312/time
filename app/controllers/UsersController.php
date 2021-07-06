@@ -5,6 +5,7 @@ use Time\Models\Users;
 use Time\Models\PasswordChanges;
 use Time\Forms\ChangePasswordForm;
 
+
 class UsersController extends ControllerBase
 {
     public function initialize()
@@ -18,7 +19,9 @@ class UsersController extends ControllerBase
         $this->view->users = Users::find();
     }
 
-    //create new user
+    /**
+     * create new user
+     */
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -44,7 +47,9 @@ class UsersController extends ControllerBase
         }
     }
 
-    //check user as deleted
+    /**
+     * check user as deleted
+     */
     public function deleteAction() 
     {
         if ($this->request->isPost()) {
@@ -63,7 +68,9 @@ class UsersController extends ControllerBase
         }
     }
 
-    //update user
+    /**
+     * update user
+     */
     public function updateAction() 
     {
         if ($this->request->isPost()) {
@@ -81,7 +88,9 @@ class UsersController extends ControllerBase
         }
     }
 
-    //change user password
+    /**
+     * change user password
+     */
     public function changePasswordAction()
     {
         $form = new ChangePasswordForm();

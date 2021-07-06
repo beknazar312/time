@@ -4,6 +4,7 @@ namespace Time\Controllers;
 
 use Time\Models\Holidays;
 
+
 class HolidaysController extends ControllerBase
 {
     public function initialize()
@@ -11,8 +12,9 @@ class HolidaysController extends ControllerBase
         $this->view->setTemplateBefore('admin');
     }
 
-
-    //Display the "Holidays" page.
+    /**
+     * Display the "Holidays" page.
+     */
     public function indexAction()
     {
         $holidays = Holidays::find([
@@ -27,8 +29,10 @@ class HolidaysController extends ControllerBase
         $this->view->holidays = $holidays;
     }
 
-
-    //set Holiday.
+    
+    /**
+     * set Holiday.
+     */
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -51,8 +55,10 @@ class HolidaysController extends ControllerBase
         }
     }
 
-
-    // Display the "Holidays" page.
+    
+    /**
+     * Display the "Holidays" page.
+     */
     public function deleteAction($id) 
     {
         $holiday = Holidays::findFirstById($id);
