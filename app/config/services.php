@@ -119,15 +119,10 @@ $di->setShared('session', function () {
 });
 
 /**
- * Register router
+ * Loading routes from the routes.php file
  */
-$di->setShared('router', function () {
-    $router = new Router();
-    $router->setUriSource(
-        Router::URI_SOURCE_SERVER_REQUEST_URI
-    );
-
-    return $router;
+$di->set('router', function () {
+    return require APP_PATH . '/config/router.php';
 });
 
 /**

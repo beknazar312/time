@@ -4,8 +4,8 @@
       {%- if administrator is defined and not(administrator is false) -%}
         {{ link_to('users', 'Админ панель', 'class':'p-2 text-dark') }}
       {% endif %}
-      {{ link_to('users/changePassword', 'Сменить пароль', 'class': 'p-2 text-dark')}}
-      {{ link_to('session/logout', 'Выйти', 'class': 'p-2 text-dark')}}
+      {{ link_to('users/change-password', 'Сменить пароль', 'class': 'p-2 text-dark')}}
+      {{ link_to('logout', 'Выйти', 'class': 'p-2 text-dark')}}
     </nav>
 </div>
 

@@ -1,12 +1,12 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Growave</h5>
     <nav class="my-2 my-md-0 mr-md-3">
-      {{ link_to('index/index', 'Главная', 'class': 'p-2 text-dark')}}
-      {{ link_to('users/index', 'Пользователи', 'class': 'p-2 text-dark')}}
-      {{ link_to('holidays/index', 'Праздники', 'class': 'p-2 text-dark')}}
-      {{ link_to('lates/index', 'Опоздавшие', 'class': 'p-2 text-dark')}}
-      {{ link_to('timer/index', 'Тайм', 'class': 'p-2 text-dark')}}
-      {{ link_to('session/logout', 'Выйти', 'class': 'p-2 text-dark')}}
+      {{ link_to('index', 'Главная', 'class': 'p-2 text-dark')}}
+      {{ link_to('users', 'Пользователи', 'class': 'p-2 text-dark')}}
+      {{ link_to('holidays', 'Праздники', 'class': 'p-2 text-dark')}}
+      {{ link_to('lates', 'Опоздавшие', 'class': 'p-2 text-dark')}}
+      {{ link_to('timer', 'Тайм', 'class': 'p-2 text-dark')}}
+      {{ link_to('logout', 'Выйти', 'class': 'p-2 text-dark')}}
     </nav>
   </div>
 
