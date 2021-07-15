@@ -50,6 +50,7 @@ $di->setShared('view', function () {
             $volt = new VoltEngine($view, $this);
             $compiler = $volt->getCompiler();
             $compiler->addFunction('strtotime', 'strtotime');
+            $compiler->addFunction('count', 'count');
 
             $volt->setOptions([
                 'compiledPath' => $config->application->cacheDir,

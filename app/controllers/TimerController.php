@@ -31,6 +31,7 @@ class TimerController extends ControllerBase
             $year = date('Y');
         }
 
+        $profile = $identity['profile'];
         $totals = Total::totals($month, $year); //get array with totals and timers for all users
         $calendar = Calendar::calendar($month, $year); //get array with calendar and total work hours of month
         $monthes = Calendar::monthes(); //array with monthes
@@ -47,6 +48,7 @@ class TimerController extends ControllerBase
             'users' => $users,
             'years' => $years,
             'monthes' => $monthes,
+            'profile' => $profile
         ]);
         
     }
@@ -79,15 +81,15 @@ class TimerController extends ControllerBase
                         'date' => date("Y-m-d")
                     ]
                 ]);
-                $this->response->setJsonContent(json_encode([
+                $timersAndTotal = $this->response->setJsonContent(json_encode([
                     'timers' => $timers,
                     'total' => Total::today($timers)
                 ]));
 
-                return $this->response;
+                return $timersAndTotal;
             } else {
-                $this->response->setJsonContent(json_encode(['error' => 'wrong']));
-                return $this->response;
+                $error = $this->response->setJsonContent(json_encode(['error' => 'wrong']));
+                return $error;
             }
         }
     }

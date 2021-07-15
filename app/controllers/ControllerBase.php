@@ -34,11 +34,6 @@ class ControllerBase extends Controller
 
                 return false;
             }
-            
-            // If is guest
-            if ($identity['profile'] == 'Guest') {
-
-            }
 
             // Check if the user have permission to the current option
             $actionName = $dispatcher->getActionName();

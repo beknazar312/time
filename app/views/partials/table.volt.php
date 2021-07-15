@@ -1,30 +1,4 @@
-<?= $this->getContent() ?>
-
-<div class="text-left">
-    <div class="row">
-        <div class="col-4">
-            <p>You have: <?= $totalHoursOfMonth ?></p>
-            <p>Assigned: <?= $calendar['workhours'] ?></p>
-            <p>Ты опоздал: <?= $lates ?> раз</p>
-            <p>На работе необходимо быть до 9:00. Если опоздали больше 3х раз в месяц, то дисциплина будет считаться не удовлетворительной и негативно скажется на запрос по повышению оклада.</p>
-        </div>
-    </div>
-    <div>
-        <form class="text-center" action='/time/index/index' method="POST">
-            <select name="month" id="" >
-              <?php foreach ($monthes as $index => $value) { ?>
-                <option <?php if ($month == $index) { ?> selected="selected" <?php } ?>  value="<?= $index ?>"><?= $value ?></option>
-              <?php } ?>
-            </select>
-            <select name="year" id="">
-              <?php foreach ($years as $value) { ?>
-                <option <?php if ($year == $value) { ?> selected="selected" <?php } ?> value="<?= $value ?>"><?= $value ?></option>
-              <?php } ?>
-            </select>
-            <button type="submit">Submit</button>
-        </form>
-
-        <table id="table" class="table table-bordered">
+<table id="table" class="table table-bordered">
     <thead>
       <tr>
         <th style="max-width: 10px" scope="col"><button type="button" id="toggle" class="btn btn-success">Hide/Show</button></th>
@@ -79,6 +53,3 @@
     </tbody>
     <?php } ?>
 </table>
-    </div>
-</div>
-

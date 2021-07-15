@@ -27,6 +27,7 @@ class IndexController extends ControllerBase
             $year = date('Y');
         }
         
+        $profile = $identity['profile'];
         $totals = Total::totals($month, $year); //get array with totals and timers for all users
         $totalHoursOfMonth = Total::totalHoursOfMonth($month, $year, $usersId); //get total hours of month for this users
         $calendar = Calendar::calendar($month, $year); //get array with calendar and total work hours of month
@@ -69,6 +70,7 @@ class IndexController extends ControllerBase
             'user' => $user,
             'lates' => $lates,
             'administrator' => $identity['profile']  == 'Administrators',
+            'profile' => $profile
         ]);
     }
 
